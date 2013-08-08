@@ -18,7 +18,7 @@ html_records = Nokogiri::HTML(open("output.html")).css("div.record")
 num_records = html_records.count
 puts "#{num_records} records loaded."
 
-puts "Initializing CSV"
+puts "Writing CSV"
 csv_out = CSV.open("output.csv","w")
 
 ######### Loop through records #########

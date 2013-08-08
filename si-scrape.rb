@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
+require 'ruby-progressbar'
 
 ######### Get base url #########
 
@@ -28,7 +29,7 @@ end
 ######### Parse HTML #########
 
 loop do
-	puts "Downloading page #{index/20+1}"
+	ProgressBar.create(:title => "Results scraped", :starting_at => index, :total => $END_INDEX, :format => '|%b>>%i| %p%% %t')
 
 	sample = Nokogiri::HTML(open("#{base_url}&start=#{index}")) do |config|
 	end

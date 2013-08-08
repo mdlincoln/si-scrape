@@ -30,9 +30,14 @@ html_records.each_with_index do |record, index|
 		field_header = getContent(attribute.at_css("dt")).delete(":")
 
 		# Loop through every value in the field
-		values = String.new
-		attribute.css("dd").each do |value|
-			values << "#{getContent(value)}|"
+		field_contents = attribute.css("dd")
+		field_values = String.new
+		if field_contents.count > 1 
+			field_contents.each do |value|
+				field_values << "#{getContent(value)};"
+			end
+		else
+			field_values << getContent(field_contents.first)
 		end
 		item_data << field_values
 	end

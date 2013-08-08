@@ -24,8 +24,22 @@ csv_out = CSV.open("output.csv","w")
 ######### Loop through records #########
 html_records.each_with_index do |record, index|
 
+	# Get title field
+	object_title = getContent(record.at_css("h2.title"))
+
+	if index == 0
+		# Generate headers from first record
+		header = Array.new
+		header << "Title"
+		record.css("dl").each do |attribute|
+			header << getContent(attribute.at_css("dt")).delete(":")
+		end
+		csv_out << header
+	end
+
 	# Loop through every field in the record
 	item_data = Array.new
+	item_data << object_title
 	record.css("dl").each do |attribute|
 		field_header = getContent(attribute.at_css("dt")).delete(":")
 

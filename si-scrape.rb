@@ -9,7 +9,8 @@ base_url = gets.chomp
 html_out = File.open("output.html", "w")
 index = 0
 
-# Get end_index
+######### Determine number of pages of records to be downloaded #########
+
 Nokogiri::HTML(open(base_url)).css("#results-paging ul li a").each do |a|
 	if a.to_s.include?("last")
 		items = a.to_s.slice(/(start=)(\d*)\D/,2).to_i
@@ -23,8 +24,10 @@ Nokogiri::HTML(open(base_url)).css("#results-paging ul li a").each do |a|
 	end
 end
 
+
+######### Parse HTML #########
+
 loop do
-	######### Parse HTML #########
 	puts "At item #{index}"
 
 	sample = Nokogiri::HTML(open("#{BASE_URL}&start=#{index}")) do |config|

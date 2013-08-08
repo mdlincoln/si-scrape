@@ -36,8 +36,7 @@ end
 loop do
 	ProgressBar.create(:title => "Results scraped", :starting_at => index, :total => $END_INDEX, :format => '|%b>>%i| %p%% %t')
 
-	sample = Nokogiri::HTML(open("#{base_url}&start=#{index}")) do |config|
-	end
+	sample = Nokogiri::HTML(open("#{base_url}&start=#{index}"))
 
 	sample.css("div.record").each do |record|
 		html_out << record.to_s.gsub("\t","")

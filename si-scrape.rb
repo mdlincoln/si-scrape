@@ -29,7 +29,7 @@ end
 ######### Parse HTML #########
 
 loop do
-	ProgressBar.create(:title => "Results scraped", :starting_at => index, :total => $END_INDEX)
+	ProgressBar.create(:title => "Results scraped", :starting_at => index, :total => $END_INDEX, :format => '|%b>>%i| %p%% %t')
 
 	sample = Nokogiri::HTML(open("#{base_url}&start=#{index}")) do |config|
 	end

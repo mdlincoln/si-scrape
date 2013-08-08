@@ -13,9 +13,12 @@ Establish your search parameters on the [SI collection portal](http://collection
 
 ### Run the script
 
-Run `ruby si-scrape.rb` and paste the copied URL when prompted.
+Run `ruby si-scrape.rb` and paste the copied URL when prompted. The script will begin to download from `collections.si.edu`, displaying a rough progress bar like this:
 
-Currently `si-scrape.rb` outputs an HTML file with all the results of the query concatenated into one long file. You may then run it through your own HTML parsing script (I recommend using [Nokogiri](http://nokogiri.org/) on Ruby)
+	$ ruby si-scrape.rb 
+	Enter query URL: http://collections.si.edu/search/results.htm?tag.cstype=all&fq=object_type%3A%22Works+of+art%22
+	Pages of results: 704
+	|===>>                                               | 6% Results scraped
 
 I hope to modify future versions of this script to perform this parsing as well, and output a flat CSV.
 

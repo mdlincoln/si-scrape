@@ -2,22 +2,27 @@
 
 A ruby script for scraping information from the web portal for the collections of the Smithsonian Institution.
 
-## How to use
+This README assumes basic knowledge of how to run a Ruby script from your command line. Beginner tutorials can be found for [Windows computers](http://www.editrocket.com/articles/ruby_windows.html) and [OS X](http://www.editrocket.com/articles/ruby_mac_os_x.html) You will also need to install the Ruby gems [Nokogiri](http://nokogiri.org/) and [ruby-progressbar](http://rubygems.org/gems/ruby-progressbar) ([Tutorials on adding Ruby gems](http://www.ruby-lang.org/en/libraries/)).
 
-(This README assumes basic knowledge of how to run a Ruby script from your command line. Basic tutorials can be found for [Windows computers](http://www.editrocket.com/articles/ruby_windows.html) and [OS X](http://www.editrocket.com/articles/ruby_mac_os_x.html))
+## Generate your query URL
 
+Establish your search parameters on the [SI collection portal](http://collections.si.edu/search/results.htm?q=). You can enter search keywords, as well as narrow your results by various parameters like "date", "culture", or "catalog record source" (this parameter is helpful for limiting your search to a particular museum within the SI.) Once you have entered your terms, copy the URL from your browser's address bar.
 
-### Generate your query URL
+My test query is looking for objects of the type `Works of Art` that feature the keyword `space`. The URL for this query looks like this:
 
-Establish your search parameters on the [SI collection portal](http://collections.si.edu/search/results.htm?q=). You can enter search keywords, as well as narrow your results by various parameters like "date", "culture", or "catalog record source" (helpful for limiting your search to a particular museum within the SI.) Once you have entered your terms, copy the URL from your browser's address bar. It will look something like: `http://collections.si.edu/search/results.htm?tag.cstype=all&q=space&fq=object_type:%22Works+of+art%22`
+	http://collections.si.edu/search/results.htm?tag.cstype=all&q=space&fq=object_type:%22Works+of+art%22
 
-### Run the script
+## Run the script
 
 Run `ruby si-scrape.rb` and paste the copied URL when prompted.
 
 Currently `si-scrape.rb` outputs an HTML file with all the results of the query concatenated into one long file. You may then run it through your own HTML parsing script (I recommend using [Nokogiri](http://nokogiri.org/) on Ruby)
 
-I hope to modify future versions of this script to perform this parsing as well, and output a flat CSV.
+Currently `si-scrape.rb` will create an HTML file (`output.html`) with all the results of the query concatenated into one long file. You may then run this file through your own HTML parsing script (I recommend using [Nokogiri](http://nokogiri.org/) on Ruby) to pull out the desired information.
+
+# To-Do
+
+I intend to make future versions of this script that will output a flat CSV that you can open and manipulate in Excel, without further Ruby knowledge. However this will need to be flexible enough to accept the huge range of metadata fields that the Smithsonian's expansive and diverse collections demand. More experienced Ruby wranglers are welcome to contribute!
 
 
 ***

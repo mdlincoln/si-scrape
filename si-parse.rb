@@ -21,6 +21,8 @@ puts "#{num_records} records loaded."
 puts "Writing CSV"
 csv_out = CSV.open("output.csv","w")
 
+prog_bar = ProgressBar.create(:title => "Records processed", :starting_at => 0, :total => num_records, :format => '%e |%b>>%i| %p%% %t')
+
 ######### Loop through records #########
 html_records.each_with_index do |record, index|
 
@@ -61,7 +63,8 @@ html_records.each_with_index do |record, index|
 	csv_out << item_data
 
 	# Increment progress bar
-	ProgressBar.create(:title => "Records processed", :starting_at => index+1, :total => num_records, :format => '|%b>>%i| %p%% %t')
+	prog_bar.increment
+
 end
 
 puts "Finished."

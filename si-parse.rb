@@ -36,7 +36,7 @@ html_records.each_with_index do |record, index|
 	end	
 
 	# Increment progress bar
-	ProgressBar.create(:title => "Records processed", :starting_at => index, :total => num_records, :format => '|%b>>%i| %p%% %t', :throttle_rate => 0.2)
+	ProgressBar.create(:title => "Records processed", :starting_at => index+1, :total => num_records, :format => '|%b>>%i| %p%% %t', :throttle_rate => 0.2)
 end
 
 puts "Finished."

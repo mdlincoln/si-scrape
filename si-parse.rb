@@ -25,19 +25,19 @@ csv_out = CSV.open("output.csv","w")
 html_records.each_with_index do |record, index|
 
 	# Loop through every field in the record
-	row = Array.new
+	item_data = Array.new
 	record.css("dl").each do |attribute|
-		col_header = getContent(attribute.at_css("dt")).delete(":")
+		field_header = getContent(attribute.at_css("dt")).delete(":")
 
 		# Loop through every value in the field
 		values = String.new
 		attribute.css("dd").each do |value|
 			values << "#{getContent(value)}|"
 		end
-		row << values
+		item_data << field_values
 	end
 
-	csv_out << row
+	csv_out << item_data
 
 	# Increment progress bar
 	ProgressBar.create(:title => "Records processed", :starting_at => index+1, :total => num_records, :format => '|%b>>%i| %p%% %t')

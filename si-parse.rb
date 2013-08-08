@@ -13,7 +13,7 @@ def getContent(input)
 end
 
 ######### Initialize files #########
-print "Loading scraped HTML..."
+print "Loading scraped HTML into memory..."
 html_records = Nokogiri::HTML(open("output.html")).css("div.record")
 num_records = html_records.count
 puts "#{num_records} records loaded."

@@ -16,10 +16,10 @@ Nokogiri::HTML(open(base_url)).css("#results-paging ul li a").each do |a|
 		items = a.to_s.slice(/(start=)(\d*)\D/,2).to_i
 		if items.nil?
 			$END_INDEX = 0
-			puts "Less than 20 items to download"
+			puts "Pages of results: 1"
 		else
 			$END_INDEX = items
-			puts "Items to download: #{$END_INDEX}"
+			puts "Pages of results: #{$END_INDEX/20}"
 		end
 	end
 end
@@ -28,9 +28,9 @@ end
 ######### Parse HTML #########
 
 loop do
-	puts "At item #{index}"
+	puts "Downloading page #{index/20+1}"
 
-	sample = Nokogiri::HTML(open("#{BASE_URL}&start=#{index}")) do |config|
+	sample = Nokogiri::HTML(open("#{base_url}&start=#{index}")) do |config|
 	end
 
 	sample.css("div.record").each do |record|

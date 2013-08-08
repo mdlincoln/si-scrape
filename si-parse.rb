@@ -46,8 +46,11 @@ html_records.each_with_index do |record, index|
 		# Loop through every value in the field
 		field_contents = attribute.css("dd")
 		field_values = String.new
+
+		# Check if a field has multiple values or not
 		if field_contents.count > 1 
 			field_contents.each do |value|
+				# Adds a semicolon delimiter for multivalue fields
 				field_values << "#{getContent(value)};"
 			end
 		else

@@ -1,0 +1,25 @@
+# si-scrape
+
+A ruby script for scraping information from the web portal for the collections of the Smithsonian Institution.
+
+## How to use
+
+(This README assumes basic knowledge of how to run a Ruby script from your command line. Basic tutorials can be found for [Windows computers](http://www.editrocket.com/articles/ruby_windows.html) and [OS X](http://www.editrocket.com/articles/ruby_mac_os_x.html))
+
+
+### Generate your query URL
+
+Establish your search parameters on the [SI collection portal](http://collections.si.edu/search/results.htm?q=). You can enter search keywords, as well as narrow your results by various parameters like "date", "culture", or "catalog record source" (helpful for limiting your search to a particular museum within the SI.) Once you have entered your terms, copy the URL from your browser's address bar. It will look something like: `http://collections.si.edu/search/results.htm?tag.cstype=all&q=space&fq=object_type:%22Works+of+art%22`
+
+### Run the script
+
+Run `ruby si-scrape.rb` and paste the copied URL when prompted.
+
+Currently `si-scrape.rb` outputs an HTML file with all the results of the query concatenated into one long file. You may then run it through your own HTML parsing script (I recommend using [Nokogiri](http://nokogiri.org/) on Ruby)
+
+I hope to modify future versions of this script to perform this parsing as well, and output a flat CSV.
+
+
+***
+
+[Matthew D. Lincoln](http://matthewlincoln.net) | Ph.D Student, Department of ArtHistory & Archaeology, University of Maryland, College Park

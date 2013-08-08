@@ -12,17 +12,22 @@ index = 0
 
 ######### Determine number of pages of records to be downloaded #########
 
-Nokogiri::HTML(open(base_url)).css("#results-paging ul li a").each do |a|
-	if a.to_s.include?("last")
-		items = a.to_s.slice(/(start=)(\d*)\D/,2).to_i
-		if items.nil?
-			$END_INDEX = 0
-			puts "Pages of results: 1"
-		else
+initial = Nokogiri::HTML(open(base_url)).css("#results-paging ul li a")
+
+### Check if there are any additional pages ###
+if initial.to_s.include?("last")
+	initial.each do |a|
+		## If so, retrieve the index of the last page ###
+		if a.to_s.include?("last")
+			items = a.to_s.slice(/(start=)(\d*)\D/,2).to_i
 			$END_INDEX = items
 			puts "Pages of results: #{$END_INDEX/20}"
 		end
 	end
+else
+	## If not, set the END_INDEX to 0
+	$END_INDEX = 0
+	puts "Pages of results: 1"
 end
 
 

@@ -41,7 +41,6 @@ html_records.each_with_index do |record, index|
 	item_data = Array.new
 	item_data << object_title
 	record.css("dl").each do |attribute|
-		field_header = getContent(attribute.at_css("dt")).delete(":")
 
 		# Loop through every value in the field
 		field_contents = attribute.css("dd")

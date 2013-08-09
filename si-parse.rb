@@ -2,16 +2,6 @@ require 'nokogiri'
 require 'json'
 require 'ruby-progressbar'
 
-
-######### Method to avoid exceptions when getting the content of empty nodes using Nokogiri #########
-def getContent(input)
-	if input == nil
-		return nil
-	else
-		return input.content
-	end
-end
-
 ######### Initialize files #########
 print "Loading scraped HTML into memory..."
 html_records = Nokogiri::HTML(open("output.html")).css("div.record")
@@ -50,7 +40,7 @@ html_records.each_with_index do |record, index|
 		if values.count > 1
 			attribute_values = Array.new
 			values.each do |value|
-				attribute_values << getContent(value)
+				attribute_values << value.content
 			end
 		else
 			attribute_values = values.first.content

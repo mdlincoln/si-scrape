@@ -12,7 +12,7 @@ My test query is looking for objects of the type `Works of Art` that feature the
 
 	http://collections.si.edu/search/results.htm?tag.cstype=all&q=space&fq=object_type:%22Works+of+art%22
 
-## Run the script
+## Run the si-scrape.rb
 
 Run `ruby si-scrape.rb` and paste the copied URL when prompted. The script will begin to download from `collections.si.edu`, displaying a rough progress bar like this:
 
@@ -22,12 +22,15 @@ Enter query URL: http://collections.si.edu/search/results.htm?tag.cstype=all&fq=
 Pages of results: 704
 |===>>                                               | 6% Results scraped
 ````
+This will create an HTML file (`output.html`) with all the results of the query concatenated into one long file.
 
-Currently `si-scrape.rb` will create an HTML file (`output.html`) with all the results of the query concatenated into one long file. You may then run this file through your own HTML parsing script (I recommend using [Nokogiri](http://nokogiri.org/) on Ruby) to pull out the desired information.
+## Run si-parse.rb
 
-# To-Do
+Once you have scraped your data, run `ruby si-parse.rb` to create a JSON file
 
-I intend to make future versions of this script that will output a flat CSV that you can open and manipulate in Excel, without further Ruby knowledge. However this will need to be flexible enough to accept the huge range of metadata fields that the Smithsonian's expansive and diverse collections demand. More experienced Ruby wranglers are welcome to contribute!
+~~# To-Do~~
+
+~~I intend to make future versions of this script that will output a flat CSV that you can open and manipulate in Excel, without further Ruby knowledge. However this will need to be flexible enough to accept the huge range of metadata fields that the Smithsonian's expansive and diverse collections demand. More experienced Ruby wranglers are welcome to contribute!~~
 
 
 ***

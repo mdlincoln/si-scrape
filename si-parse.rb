@@ -45,7 +45,7 @@ html_records.each_with_index do |record, index|
 
 		attribute_title = getContent(attribute.at_css("dt")).delete(":").to_sym
 
-		# Loop through every value in the field
+		# Check for multiple values in a field, and write appropriately
 		values = attribute.css("dd")
 		if values.count > 1
 			attribute_values = Array.new

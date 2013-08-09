@@ -19,6 +19,7 @@ Run `ruby si-scrape.rb` and paste the copied URL when prompted. The script will 
 ````bash
 $ ruby si-scrape.rb 
 Enter query URL: http://collections.si.edu/search/results.htm?tag.cstype=all&fq=object_type%3A%22Works+of+art%22
+Looking up query on collections.si.edu...
 Pages of results: 704
 |===>>                                               | 6% Results scraped
 ````

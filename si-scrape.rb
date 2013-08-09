@@ -12,6 +12,7 @@ index = 0
 
 ######### Determine number of pages of records to be downloaded #########
 
+puts "Looking up query on collections.si.edu..."
 initial = Nokogiri::HTML(open(base_url)).css("#results-paging ul li a")
 
 ### Check if there are any additional pages ###

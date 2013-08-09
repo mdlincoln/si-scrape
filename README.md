@@ -1,6 +1,6 @@
 # si-scrape
 
-A set of Ruby scripts for scraping information from the web portal for the collections of the Smithsonian Institution and parsing it into easily-readable JSON. This is a quick and dirty solution for downloading structured data from the Smithsonian while they are finalizing a Linked Open Data implementation for their collections.
+A set of Ruby scripts for scraping information from the web portal for the collections of the Smithsonian Institution and parsing it into easily-readable JSON. This is a quick and dirty solution for downloading structured data from the Smithsonian, which will be happily outdated once the SI finalizes a Linked Open Data interface for their collection data.
 
 This README assumes basic knowledge of how to run a Ruby script from your command line. Beginner tutorials can be found for [Windows computers](http://www.editrocket.com/articles/ruby_windows.html) and [OS X](http://www.editrocket.com/articles/ruby_mac_os_x.html) You will also need to install the Ruby gems [Nokogiri](http://nokogiri.org/) and [ruby-progressbar](http://rubygems.org/gems/ruby-progressbar) ([Tutorials on adding Ruby gems](http://www.ruby-lang.org/en/libraries/)).
 

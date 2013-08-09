@@ -47,8 +47,7 @@ html_records.each_with_index do |record, index|
 	end
 
 	# Store info in hash
-	output.store("id", si_id)
-	output.store("data", item_data)
+	output.store(si_id, item_data)
 
 	# Increment progress bar
 	prog_bar.increment

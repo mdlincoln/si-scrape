@@ -33,6 +33,13 @@ html_records.each_with_index do |record, index|
 	# Get object title
 	item_data.store("Title", getContent(record.at_css("h2.title")))
 
+	# Get object image
+	img = record.at_css("a img")
+	unless img.nil?
+		img_path = img.attribute("src").content.slice(/\&id\=(.*)/,1)
+		item_data.store("Image", img_path)
+	end
+
 	# Loop through every field in the record
 	record.css("dl").each do |attribute|
 

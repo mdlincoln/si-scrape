@@ -33,4 +33,4 @@ I intend to make future versions of this script that will output a flat CSV that
 
 ***
 
-[Matthew D. Lincoln](http://matthewlincoln.net) | Ph.D Student, Department of ArtHistory & Archaeology, University of Maryland, College Park
+[Matthew D. Lincoln](http://matthewlincoln.net) | Ph.D Student, Department of Art History & Archaeology, University of Maryland, College Park

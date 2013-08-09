@@ -20,24 +20,20 @@ html_records.each_with_index do |record, index|
 
 	# Get SI ID
 	si_id = record.at_css("h2").attribute("id").content
-	item_data = Hash.new
 	
 	# Get object title
-	item_data.store("Title", getContent(record.at_css("h2.title")))
+	item_data = {"Title" => record.at_css("h2.title").content}
 
 	# Get object image
 	img = record.at_css("a img")
 	unless img.nil?
-		img_path = img.attribute("src").content.slice(/\&id\=(.*)/,1)
-		item_data.store("Image", img_path)
+		item_data["Image"] = img.attribute("src").content.slice(/\&id\=(.*)/,1)
 	end
 
-	# Loop through every field in the record
-	record.css("dl").each do |attribute|
 	###### end special fields ######
 
-		attribute_title = getContent(attribute.at_css("dt")).delete(":").to_sym
 	###### Loop through every remaining field in the record ######
+	record.css("dl").each do |attribute|
 
 		# Check for multiple values in a field, and write appropriately
 		values = attribute.css("dd")
@@ -49,11 +45,12 @@ html_records.each_with_index do |record, index|
 		else
 			attribute_values = values.first.content
 		end
-		item_data.store(attribute_title,attribute_values)
+
+		item_data[attribute.at_css("dt").content.delete(":")] = attribute_values
 	end
 
 	# Store info in hash
-	output.store(si_id, item_data)
+	output[si_id] = item_data
 
 	# Increment progress bar
 	prog_bar.increment

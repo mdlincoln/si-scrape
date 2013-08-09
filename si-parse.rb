@@ -14,7 +14,7 @@ output = Hash.new
 prog_bar = ProgressBar.create(:title => "Records processed", :starting_at => 0, :total => num_records, :format => '|%b>>%i| %p%% %t')
 
 ######### Loop through records #########
-html_records.each_with_index do |record, index|
+html_records.each do |record|
 
 	###### Special fields that need to be explicitly parsed ######
 

@@ -38,14 +38,10 @@ html_records.each do |record|
 		# Check for multiple values in a field, and write appropriately
 		heading = attribute.at_css("dt").content.delete(":")
 
-		values = attribute.css("dd")
-		if values.count > 1
-			attribute_values = Array.new
-			values.each do |value|
-				attribute_values << value.content
-			end
-		else
-			attribute_values = values.first.content
+		# Loop through every value in the field
+		attribute_values = Array.new
+		attribute.css("dd").each do |value|
+			attribute_values << value.content
 		end
 
 		item_data[heading] = attribute_values

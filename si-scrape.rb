@@ -44,8 +44,8 @@ loop do
 
 	sleep 0 # => Add a sleep timer here if your web requests time out
 	index += 20
-	prog_bar.progress += 20
 	break if index > $END_INDEX
+	prog_bar.progress += 20
 end
 
 puts "Finished"

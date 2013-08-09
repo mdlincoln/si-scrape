@@ -31,7 +31,7 @@ html_records.each_with_index do |record, index|
 	item_data = Hash.new
 	
 	# Get object title
-	item_data.store("title", getContent(record.at_css("h2.title")))
+	item_data.store("Title", getContent(record.at_css("h2.title")))
 
 	# Loop through every field in the record
 	record.css("dl").each do |attribute|

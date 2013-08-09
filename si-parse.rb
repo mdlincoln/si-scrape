@@ -46,9 +46,14 @@ html_records.each_with_index do |record, index|
 		attribute_title = getContent(attribute.at_css("dt")).delete(":").to_sym
 
 		# Loop through every value in the field
-		attribute_values = Array.new
-		attribute.css("dd").each do |value|
-			attribute_values << getContent(value)
+		values = attribute.css("dd")
+		if values.count > 1
+			attribute_values = Array.new
+			values.each do |value|
+				attribute_values << getContent(value)
+			end
+		else
+			attribute_values = values.first.content
 		end
 		item_data.store(attribute_title,attribute_values)
 	end

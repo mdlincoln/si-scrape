@@ -36,6 +36,8 @@ html_records.each do |record|
 	record.css("dl").each do |attribute|
 
 		# Check for multiple values in a field, and write appropriately
+		heading = attribute.at_css("dt").content.delete(":")
+
 		values = attribute.css("dd")
 		if values.count > 1
 			attribute_values = Array.new
@@ -46,7 +48,7 @@ html_records.each do |record|
 			attribute_values = values.first.content
 		end
 
-		item_data[attribute.at_css("dt").content.delete(":")] = attribute_values
+		item_data[heading] = attribute_values
 	end
 
 	# Store info in hash

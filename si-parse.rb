@@ -1,5 +1,5 @@
 require 'nokogiri'
-require 'csv'
+require 'json'
 require 'ruby-progressbar'
 
 
@@ -18,53 +18,46 @@ html_records = Nokogiri::HTML(open("output.html")).css("div.record")
 num_records = html_records.count
 puts "#{num_records} records loaded."
 
-puts "Writing CSV"
-csv_out = CSV.open("output.csv","w")
+puts "Parsing HTML..."
+output = Hash.new
 
 prog_bar = ProgressBar.create(:title => "Records processed", :starting_at => 0, :total => num_records, :format => '|%b>>%i| %p%% %t')
 
 ######### Loop through records #########
 html_records.each_with_index do |record, index|
 
-	# Get title field
-	object_title = getContent(record.at_css("h2.title"))
-
-	if index == 0
-		# Generate headers from first record
-		header = Array.new
-		header << "Title"
-		record.css("dl").each do |attribute|
-			header << getContent(attribute.at_css("dt")).delete(":")
-		end
-		csv_out << header
-	end
+	# Get SI ID
+	si_id = record.at_css("h2").attribute("id").content
+	item_data = Hash.new
+	
+	# Get object title
+	item_data.store("title", getContent(record.at_css("h2.title")))
 
 	# Loop through every field in the record
-	item_data = Array.new
-	item_data << object_title
 	record.css("dl").each do |attribute|
 
-		# Loop through every value in the field
-		field_contents = attribute.css("dd")
-		field_values = String.new
+		attribute_title = getContent(attribute.at_css("dt")).delete(":").to_sym
 
-		# Check if a field has multiple values or not
-		if field_contents.count > 1 
-			field_contents.each do |value|
-				# Adds a semicolon delimiter for multivalue fields
-				field_values << "#{getContent(value)};"
-			end
-		else
-			field_values << getContent(field_contents.first)
+		# Loop through every value in the field
+		attribute_values = Array.new
+		attribute.css("dd").each do |value|
+			attribute_values << getContent(value)
 		end
-		item_data << field_values
+		item_data.store(attribute_title,attribute_values)
 	end
 
-	csv_out << item_data
+	# Store info in hash
+	output.store("id", si_id)
+	output.store("data", item_data)
 
 	# Increment progress bar
 	prog_bar.increment
 
 end
 
+# Write JSON file
+puts "Writing JSON..."
+File.open("output.json","w") do |file|
+	file.write(JSON.pretty_generate(output))
+end
 puts "Finished."

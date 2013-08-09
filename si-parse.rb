@@ -16,6 +16,8 @@ prog_bar = ProgressBar.create(:title => "Records processed", :starting_at => 0, 
 ######### Loop through records #########
 html_records.each_with_index do |record, index|
 
+	###### Special fields that need to be explicitly parsed ######
+
 	# Get SI ID
 	si_id = record.at_css("h2").attribute("id").content
 	item_data = Hash.new
@@ -32,8 +34,10 @@ html_records.each_with_index do |record, index|
 
 	# Loop through every field in the record
 	record.css("dl").each do |attribute|
+	###### end special fields ######
 
 		attribute_title = getContent(attribute.at_css("dt")).delete(":").to_sym
+	###### Loop through every remaining field in the record ######
 
 		# Check for multiple values in a field, and write appropriately
 		values = attribute.css("dd")
@@ -56,7 +60,7 @@ html_records.each_with_index do |record, index|
 
 end
 
-# Write JSON file
+######### Write JSON file #########
 puts "Writing JSON..."
 File.open("output.json","w") do |file|
 	file.write(JSON.pretty_generate(output))

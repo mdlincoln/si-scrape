@@ -3,6 +3,8 @@ require 'open-uri'
 require 'json'
 require 'ruby-progressbar'
 
+OUTPUT = "output.json" # => Insert your desired output file path here
+
 ######### Get base url #########
 
 print "Enter query URL: "
@@ -86,7 +88,7 @@ end
 
 ######### Write JSON file #########
 puts "Writing JSON..."
-File.open("output.json","w") do |file|
+File.open(OUTPUT,"w") do |file|
 	file.write(JSON.pretty_generate(output))
 end
 

@@ -47,15 +47,15 @@ loop do
 		###### Special fields that need to be explicitly parsed ######
 
 		# Get SI ID
-		si_id = record.at_css("h2").attribute("id").content
+		si_id = record.at_css("h2").attribute("id").content.to_sym
 		
 		# Get object title
-		item_data = {"Title" => record.at_css("h2.title").content}
+		item_data = {:title => record.at_css("h2.title").content}
 
 		# Get object image
 		img = record.at_css("a img")
 		unless img.nil?
-			item_data["Image"] = img.attribute("src").content.slice(/\&id\=(.*)/,1)
+			item_data[:image] = img.attribute("src").content.slice(/\&id\=(.*)/,1)
 		end
 
 		###### end special fields ######
@@ -64,7 +64,7 @@ loop do
 		record.css("dl").each do |attribute|
 
 			# Check for multiple values in a field, and write appropriately
-			heading = attribute.at_css("dt").content.delete(":")
+			heading = attribute.at_css("dt").content.delete(":").downcase.sub(/\W/,"_").to_sym
 
 			# Loop through every value in the field
 			attribute_values = Array.new
@@ -76,7 +76,7 @@ loop do
 			item_data[heading] = attribute_values
 		end
 
-		# Store info in hash
+		# Store item data, keyed to the item ID
 		output[si_id] = item_data
 
 	end

@@ -1,6 +1,6 @@
 # si-scrape
 
-A set of Ruby scripts for scraping information from the web portal for the collections of the Smithsonian Institution and parsing it into easily-readable JSON. This is a quick and dirty solution for downloading structured data from the Smithsonian, which will be happily outdated once the SI finalizes a Linked Open Data interface for their collection data.
+This ruby script will scrape information from the web portal for the collections of the Smithsonian Institution and parsing it into easily-readable JSON. This is a quick and dirty solution for downloading structured data from the Smithsonian while they are finalizing a Linked Open Data implementation for their collections.
 
 This README assumes basic knowledge of how to run a Ruby script from your command line. Beginner tutorials can be found for [Windows computers](http://www.editrocket.com/articles/ruby_windows.html) and [OS X](http://www.editrocket.com/articles/ruby_mac_os_x.html) You will also need to install the Ruby gems [Nokogiri](http://nokogiri.org/) and [ruby-progressbar](http://rubygems.org/gems/ruby-progressbar) ([Tutorials on adding Ruby gems](http://www.ruby-lang.org/en/libraries/)).
 
@@ -23,13 +23,10 @@ Looking up query on collections.si.edu...
 Pages of results: 704
 |===>>                                               | 6% Results scraped
 ````
-This will create an HTML file (`output.html`) with all the results of the query concatenated into one long file.
 
-## Run si-parse.rb
+As each page of records are downloaded, they will be parsed into a JSON file in the same directory as the script (default file path: `output.json`). This script creates a [JSON](http://json.org) file instead of a CSV for two reasons:
 
-Once you have scraped your data, run `ruby si-parse.rb` to create a JSON file of the scraped data. This script creates a [JSON](http://json.org) file instead of a CSV for two reasons:
-
-1. In order to accomodate the diverse metadata that are present in some Smithsonian object records, but not in others. A CSV file is best suited for rows of data that all share the same columns; this would not work for the output from `collections.si.edu`.
+1. In order to accommodate the diverse metadata that are present in some Smithsonian object records, but not in others. A CSV file is best suited for rows of data that all share the same columns; this would not work for the output from `collections.si.edu`.
 2. Some fields, like those for `Topic` or `Type`, have more than one value, which JSON can handle with nested arrays; a CSV needs an additional delimiter character, and support for reading such complex CSVs is patchy at best.
 
 Records will appear as such:
@@ -82,7 +79,7 @@ Records will appear as such:
 }
 ````
 
-Every SI object comes with a unique ID (e.g. `saam_1978.146.1`) and title (e.g. `Slaughterhouse Ruins at Aledo`). Other elements could potentially have multiple values, and so they are stored as nested arrays in the JSON output, which can easily be parsed by [Ruby's JSON module](http://www.ruby-doc.org/stdlib-2.0/libdoc/json/rdoc/JSON.html) or other library of your choice.
+Every SI object comes with a unique ID (e.g. `saam_1978.146.1`), title (e.g. `Slaughterhouse Ruins at Aledo`), and image URL (n.b. sometimes this URL will lead to a blank image, however). Other elements could potentially have multiple values, and so they are stored as nested arrays in the JSON output, which can easily be parsed by [Ruby's JSON module](http://www.ruby-doc.org/stdlib-2.0/libdoc/json/rdoc/JSON.html) or other library of your choice.
 
 # To-Do
 

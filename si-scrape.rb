@@ -78,9 +78,6 @@ loop do
 
 	end
 
-	# Increment progress bar
-	prog_bar.increment
-
 	sleep 0 # => Add a sleep timer here if your web requests time out
 	index += 20
 	break if index > $END_INDEX

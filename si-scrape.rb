@@ -72,6 +72,7 @@ loop do
 				attribute_values << value.content
 			end
 
+			# Store the value array in item_data, keyed to the heading name
 			item_data[heading] = attribute_values
 		end
 

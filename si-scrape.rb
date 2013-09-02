@@ -25,6 +25,7 @@ if initial.to_s.include?("last")	## If yes, retrieve the index of the last page 
 			items = a.to_s.slice(/(start=)(\d*)\D/,2).to_i
 			$END_INDEX = items
 			puts "Pages of results: #{$END_INDEX/20}"
+			puts "Total items: #{$END_INDEX}"
 		end
 	end
 else	## If not, set the END_INDEX to 0 ##
@@ -92,9 +93,24 @@ loop do
 end
 
 ######### Write JSON file #########
+
+# Concatenate multiple JSON files
+complete = Hash.new
+
+num = 0
+puts "Loading and merging files..."
+while num <= $END_INDEX
+	filename = "parts/part_#{num}.json"
+	current = JSON.parse(File.read(filename), :symbolize_names => true)
+	complete = complete.merge(current)
+	puts "Merged #{filename}"
+	num += 20
+end
+
+
 puts "Writing JSON..."
 File.open(OUTPUT,"w") do |file|
-	file.write(JSON.pretty_generate(output))
+	file.write(JSON.pretty_generate(complete))
 end
 
 puts "Finished"

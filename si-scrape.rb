@@ -10,7 +10,6 @@ OUTPUT = "output.json" # => Insert your desired output file path here
 print "Enter query URL: "
 base_url = gets.chomp
 
-output = Hash.new
 index = 0
 
 ######### Determine number of pages of records to be downloaded #########
@@ -39,6 +38,8 @@ prog_bar = ProgressBar.create(:title => "Results scraped", :starting_at => index
 ######### Parse HTML #########
 
 loop do
+
+	output = Hash.new
 
 	sample = Nokogiri::HTML(open("#{base_url}&start=#{index}"))
 
@@ -79,6 +80,9 @@ loop do
 		# Store item data, keyed to the item ID
 		output[si_id] = item_data
 
+		File.open("parts/part_#{index}.json","w") do |file|
+			file.write(JSON.generate(output))
+		end
 	end
 
 	sleep 0 # => Add a sleep timer here if your web requests time out

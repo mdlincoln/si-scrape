@@ -10,7 +10,8 @@ OUTPUT = "output.json" # => Insert your desired output file path here
 print "Enter query URL: "
 base_url = gets.chomp
 
-index = 0
+START_INDEX = 223060
+index = START_INDEX
 
 ######### Determine number of pages of records to be downloaded #########
 
@@ -32,8 +33,8 @@ else	## If not, set the END_INDEX to 0 ##
 	puts "Pages of results: 1"
 end
 
-
-prog_bar = ProgressBar.create(:title => "Results scraped", :starting_at => index, :total => $END_INDEX, :format => '%c |%b>>%i| %p%% %t')	# => Create a progress bar
+# Set up progress bar to display the results of the download. This will be updated as each page is downloaded and parsed
+prog_bar = ProgressBar.create(:title => "Results scraped", :starting_at => START_INDEX, :total => $END_INDEX, :format => '%c |%b>>%i| %p%% %t')	# => Create a progress bar
 
 ######### Parse HTML #########
 

@@ -107,7 +107,6 @@ while num <= $END_INDEX
 	current = JSON.parse(File.read(filename), :symbolize_names => true)
 	# Merge each file into the master hash
 	complete = complete.merge(current)
-	puts "Merged #{filename}"
 	num += 20
 	merge_bar.porgress += 20
 end

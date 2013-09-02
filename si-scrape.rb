@@ -101,13 +101,14 @@ puts "Loading and merging temporary files..."
 merge_bar = ProgressBar.create(:title => "Records merged", :starting_at => num, :total => $END_INDEX, :format => '%c |%b>>%i| %p%% %t')	# => Create a progress bar
 
 # For each temporary JSON file created while downloading results
-while num <= $END_INDEX
+loop do
 	filename = "parts/part_#{num}.json"
 	# Re-load these files into a hash
 	current = JSON.parse(File.read(filename), :symbolize_names => true)
 	# Merge each file into the master hash
 	complete = complete.merge!(current)
 	num += 20
+	break if num > $END_INDEX
 	merge_bar.progress += 20
 end
 

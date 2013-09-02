@@ -43,7 +43,6 @@ loop do
 	output = Hash.new
 
 	sample = Nokogiri::HTML(open("#{base_url}&start=#{index}"))
-
 	sample.css("div.record").each do |record|	# => Pull and write each div with class="record"
 		
 		###### Special fields that need to be explicitly parsed ######
@@ -81,6 +80,7 @@ loop do
 		# Store item data, keyed to the item ID
 		output[si_id] = item_data
 
+		# Write out a temporary JSON representing this page of results. These will later be merged into one master JSON file
 		File.open("parts/part_#{index}.json","w") do |file|
 			file.write(JSON.generate(output))
 		end
@@ -92,22 +92,27 @@ loop do
 	prog_bar.progress += 20
 end
 
-######### Write JSON file #########
+######### Concatenate temporary JSON files #########
 
-# Concatenate multiple JSON files
 complete = Hash.new
 
 num = 0
-puts "Loading and merging files..."
+puts "Loading and merging temporary files..."
+merge_bar = ProgressBar.create(:title => "Records merged", :starting_at => num, :total => $END_INDEX, :format => '%c |%b>>%i| %p%% %t')	# => Create a progress bar
+
+# For each temporary JSON file created while downloading results
 while num <= $END_INDEX
 	filename = "parts/part_#{num}.json"
+	# Re-load these files into a hash
 	current = JSON.parse(File.read(filename), :symbolize_names => true)
+	# Merge each file into the master hash
 	complete = complete.merge(current)
 	puts "Merged #{filename}"
 	num += 20
+	merge_bar.porgress += 20
 end
 
-
+# Write out the master hash to disk
 puts "Writing JSON..."
 File.open(OUTPUT,"w") do |file|
 	file.write(JSON.pretty_generate(complete))

@@ -34,7 +34,7 @@ else	## If not, set the END_INDEX to 0 ##
 end
 
 
-prog_bar = ProgressBar.create(:title => "Results scraped", :starting_at => index, :total => $END_INDEX, :format => '%e |%b>>%i| %p%% %t')	# => Create a progress bar
+prog_bar = ProgressBar.create(:title => "Results scraped", :starting_at => index, :total => $END_INDEX, :format => '%c |%b>>%i| %p%% %t')	# => Create a progress bar
 
 ######### Parse HTML #########
 

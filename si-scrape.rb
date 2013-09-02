@@ -108,7 +108,7 @@ while num <= $END_INDEX
 	# Merge each file into the master hash
 	complete = complete.merge(current)
 	num += 20
-	merge_bar.porgress += 20
+	merge_bar.progress += 20
 end
 
 # Write out the master hash to disk

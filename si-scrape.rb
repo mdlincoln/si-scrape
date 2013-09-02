@@ -22,10 +22,9 @@ if initial.to_s.include?("last")	## If yes, retrieve the index of the last page 
 	initial.each do |a|
 		
 		if a.to_s.include?("last")
-			items = a.to_s.slice(/(start=)(\d*)\D/,2).to_i
-			$END_INDEX = items
-			puts "Pages of results: #{$END_INDEX/20}"
+			$END_INDEX = a.to_s.slice(/(start=)(\d*)\D/,2).to_i
 			puts "Total items: #{$END_INDEX}"
+			puts "Pages to download: #{$END_INDEX/20}"
 		end
 	end
 else	## If not, set the END_INDEX to 0 ##

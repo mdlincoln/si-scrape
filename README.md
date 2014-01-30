@@ -8,9 +8,7 @@ This README assumes basic knowledge of how to run a Ruby script from your comman
 
 Establish your search parameters on the [SI collection portal](http://collections.si.edu/search/results.htm?q=). You can enter search keywords, as well as narrow your results by various parameters like `date`, `culture`, or `catalog record source` (this parameter is particularly helpful for limiting your search to a particular museum within the SI.) Once you have entered your terms, copy the URL from your browser's address bar.
 
-My test query is looking for objects of the type `Works of Art` that feature the keyword `space`. The URL for this query looks like this:
-
-	http://collections.si.edu/search/results.htm?tag.cstype=all&q=space&fq=object_type:%22Works+of+art%22
+My test query is looking for objects of the type `Works of Art` that feature the keyword `space`. The URL for this query looks like this: `http://collections.si.edu/search/results.htm?tag.cstype=all&q=space&fq=object_type:%22Works+of+art%22`
 
 ## Run si-scrape.rb
 

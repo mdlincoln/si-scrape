@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Si-scrape by mdlincoln</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Si-scrape</h1>
+        <p class="header">A Ruby script for scraping collection data from the Smithsonian Institution</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/mdlincoln/si-scrape/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/mdlincoln/si-scrape/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/mdlincoln/si-scrape">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/mdlincoln">mdlincoln</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a name="si-scrape" class="anchor" href="#si-scrape"><span class="octicon octicon-link"></span></a>si-scrape</h1>
+
+<p>This ruby script will scrape information from the web portal for the collections of the Smithsonian Institution and parsing it into easily-readable JSON. This is a quick and dirty solution for downloading structured data from the Smithsonian while they are finalizing a Linked Open Data implementation for their collections.</p>
+
+<p>This README assumes basic knowledge of how to run a Ruby script from your command line. Beginner tutorials can be found for <a href="http://www.editrocket.com/articles/ruby_windows.html">Windows computers</a> and <a href="http://www.editrocket.com/articles/ruby_mac_os_x.html">OS X</a> You will also need to install the Ruby gems <a href="http://nokogiri.org/">Nokogiri</a> and <a href="http://rubygems.org/gems/ruby-progressbar">ruby-progressbar</a> (<a href="http://www.ruby-lang.org/en/libraries/">Tutorials on adding Ruby gems</a>).</p>
+
+<h2>
+<a name="generate-your-query-url" class="anchor" href="#generate-your-query-url"><span class="octicon octicon-link"></span></a>Generate your query URL</h2>
+
+<p>Establish your search parameters on the <a href="http://collections.si.edu/search/results.htm?q=">SI collection portal</a>. You can enter search keywords, as well as narrow your results by various parameters like <code>date</code>, <code>culture</code>, or <code>catalog record source</code> (this parameter is particularly helpful for limiting your search to a particular museum within the SI.) Once you have entered your terms, copy the URL from your browser's address bar.</p>
+
+<p>My test query is looking for objects of the type <code>Works of Art</code> that feature the keyword <code>space</code>. The URL for this query looks like this:</p>
+
+<pre><code>http://collections.si.edu/search/results.htm?tag.cstype=all&amp;q=space&amp;fq=object_type:%22Works+of+art%22
+</code></pre>
+
+<h2>
+<a name="run-si-scraperb" class="anchor" href="#run-si-scraperb"><span class="octicon octicon-link"></span></a>Run si-scrape.rb</h2>
+
+<p>Run <code>ruby si-scrape.rb</code> and paste the copied URL when prompted. The script will begin to download from <code>collections.si.edu</code>, displaying a rough progress bar like this:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>ruby si-scrape.rb 
+Enter query URL: http://collections.si.edu/search/results.htm?tag.cstype<span class="o">=</span>all<span class="p">&amp;</span><span class="nv">fq</span><span class="o">=</span>object_type%3A%22Works+of+art%22
+Looking up query on collections.si.edu...
+Pages of results: 704
+<span class="p">|</span><span class="o">===</span>&gt;&gt;                                               <span class="p">|</span> 6% Results scraped
+</pre></div>
+
+<p>As each page of records are downloaded, they will be parsed into a JSON file in the same directory as the script (default file path: <code>output.json</code>). This script creates a <a href="http://json.org">JSON</a> file instead of a CSV for two reasons:</p>
+
+<ol>
+<li>In order to accommodate the diverse metadata that are present in some Smithsonian object records, but not in others. A CSV file is best suited for rows of data that all share the same columns; this would not work for the output from <code>collections.si.edu</code>.</li>
+<li>Some fields, like those for <code>Topic</code> or <code>Type</code>, have more than one value, which JSON can handle with nested arrays; a CSV needs an additional delimiter character, and support for reading such complex CSVs is patchy at best.</li>
+</ol><p>Records will appear as such:</p>
+
+<div class="highlight highlight-json"><pre><span class="p">{</span>
+<span class="nt">"saam_1978.146.1"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">"Title"</span><span class="p">:</span> <span class="s2">"Slaughterhouse Ruins at Aledo"</span><span class="p">,</span>
+    <span class="nt">"Image"</span><span class="p">:</span> <span class="s2">"http://americanart.si.edu/images/1978/1978.146.1_1a.jpg"</span><span class="p">,</span>
+    <span class="nt">"Artist"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"Gertrude Abercrombie, born Austin, TX 1909-died Chicago, IL 1977"</span>
+    <span class="p">],</span>
+    <span class="nt">"Medium"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"oil on canvas"</span>
+    <span class="p">],</span>
+    <span class="nt">"Dimensions"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"20 x 24 in. (50.9 x 61.0 cm)"</span>
+    <span class="p">],</span>
+    <span class="nt">"Type"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"Painting"</span>
+    <span class="p">],</span>
+    <span class="nt">"Date"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"1937"</span>
+    <span class="p">],</span>
+    <span class="nt">"Topic"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"Landscape"</span><span class="p">,</span>
+      <span class="s2">"Landscape\\Spain\\Aledo"</span><span class="p">,</span>
+      <span class="s2">"Architecture Exterior\\ruins"</span><span class="p">,</span>
+      <span class="s2">"Architecture Exterior\\industry\\slaughterhouse"</span>
+    <span class="p">],</span>
+    <span class="nt">"Credit Line"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"Smithsonian American Art Museum, Gift of the Gertrude Abercrombie Trust"</span>
+    <span class="p">],</span>
+    <span class="nt">"Object number"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"1978.146.1"</span>
+    <span class="p">],</span>
+    <span class="nt">"See more items in"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"Smithsonian American Art Museum Collection"</span>
+    <span class="p">],</span>
+    <span class="nt">"Data Source"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"Smithsonian American Art Museum"</span>
+    <span class="p">],</span>
+    <span class="nt">"Record ID"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"saam_1978.146.1"</span>
+    <span class="p">],</span>
+    <span class="nt">"Visitor Tag(s)"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"\nNo tags yet, be the first!\n\nAdd Your Tags!\n"</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Every SI object comes with a unique ID (e.g. <code>saam_1978.146.1</code>), title (e.g. <code>Slaughterhouse Ruins at Aledo</code>), and image URL (n.b. sometimes this URL will lead to a blank image, however). Other elements could potentially have multiple values, and so they are stored as nested arrays in the JSON output, which can easily be parsed by <a href="http://www.ruby-doc.org/stdlib-2.0/libdoc/json/rdoc/JSON.html">Ruby's JSON module</a> or other library of your choice.</p>
+
+<h1>
+<a name="to-do" class="anchor" href="#to-do"><span class="octicon octicon-link"></span></a>To-Do</h1>
+
+<p>Fork/<a href="http://matthewlincoln.net/about">contact me</a> with more suggestions for the project!</p>
+
+<hr><p><a href="http://matthewlincoln.net">Matthew D. Lincoln</a> | Ph.D Student, Department of Art History &amp; Archaeology, University of Maryland, College Park</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
